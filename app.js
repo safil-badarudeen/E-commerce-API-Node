@@ -1,5 +1,6 @@
-//.env
+//.env,async-error-package
 require('dotenv').config()
+require('express-async-errors')
 
 //express
 
@@ -8,6 +9,16 @@ const app =express()
 
 //mongoDB
 const connectDB=require('./db/connect')
+
+const notFoundMiddleware=require('./middleware/not-found')
+const errorHandlerMiddleware=require('./middleware/error-handler')
+
+//body parser middleware
+app.use(express.json())
+
+//error middleware
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 const port=process.env.PORT || 5000;
 
