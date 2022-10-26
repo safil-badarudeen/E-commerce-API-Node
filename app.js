@@ -10,7 +10,11 @@ const app =express()
 //mongoDB
 const connectDB=require('./db/connect')
 
+//route
+const authRoutes=require('./routes/authRoutes')
+
 //other
+
 
 const morgan=require('morgan')
 
@@ -21,6 +25,8 @@ const errorHandlerMiddleware=require('./middleware/error-handler')
 app.use(express.json())
 
 app.use(morgan('tiny'))
+
+app.use('/api/v1/auth',authRoutes)
 
 //error middleware
 app.use(notFoundMiddleware)
