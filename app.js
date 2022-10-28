@@ -28,6 +28,11 @@ app.use(morgan('tiny'))
 
 app.use('/api/v1/auth',authRoutes)
 
+
+app.get('/',(req,res)=>{
+    res.send('E commerce API')
+})
+
 //error middleware
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
@@ -36,9 +41,7 @@ const port=process.env.PORT || 5000;
 
 
 
-app.get('/',(req,res)=>{
-    res.send('E commerce API')
-})
+
 
 const start=async()=>{
     try {
