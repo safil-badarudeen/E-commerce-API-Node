@@ -1,3 +1,3 @@
-const{createJWT,verifyToken}=require('./jwt')
+const{createJWT,verifyToken,attachCookiesToResponse}=require('./jwt')
 
-module.exports={createJWT,verifyToken}
+module.exports={createJWT,verifyToken,attachCookiesToResponse}

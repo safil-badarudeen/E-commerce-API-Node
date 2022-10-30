@@ -17,20 +17,29 @@ const authRoutes=require('./routes/authRoutes')
 
 
 const morgan=require('morgan')
+const cookieParser=require('cookie-parser')
 
 const notFoundMiddleware=require('./middleware/not-found')
 const errorHandlerMiddleware=require('./middleware/error-handler')
+const { signedCookie } = require('cookie-parser')
 
 //body parser middleware
 app.use(express.json())
 
 app.use(morgan('tiny'))
+app.use(cookieParser(process.env.JWT_SECRET_KEY))
 
 app.use('/api/v1/auth',authRoutes)
 
 
 app.get('/',(req,res)=>{
     res.send('E commerce API')
+})
+app.get('/api/v1',(req,res)=>{
+    //   console.log(req.cookies)
+     console.log(req.signedCookies)
+    res.send('dummy route')
+    
 })
 
 //error middleware
