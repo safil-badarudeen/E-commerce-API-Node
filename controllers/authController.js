@@ -1,6 +1,7 @@
 const User=require('../models/user')
 const { StatusCodes } = require('http-status-codes');
 const customError=require('../errors')
+const bcrypt = require('bcryptjs');
 
 const {attachCookiesToResponse}=require('../utils')
 
@@ -26,7 +27,28 @@ const register=async(req,res)=>{
 }
 
 const login=async(req,res)=>{
-    res.send('login route')
+  const {email,password}=req.body
+  
+  if(!email || !password){
+    throw new customError.BadRequestError('please enter both email and password in the specific field')
+  }
+  
+  const user=await User.findOne({email})
+  if(!user){
+    throw new customError.NotFoundError('User not found...Enter valid email address')
+  }
+  const tokenUser={name:user.name,userId:user._id,role:user.role}
+
+  const verifiedPassword=await user.comparePassword(password);
+
+   if(!verifiedPassword){
+    throw new customError.UnauthenticatedError('wrong password try again')
+   }
+   
+    attachCookiesToResponse({user:tokenUser,res})
+    // res.status(StatusCodes.CREATED).json({user:tokenUser})
+    //res from attachCookies function
+   
 }
 
 const logout =async(req,res)=>{

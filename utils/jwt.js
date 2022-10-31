@@ -11,7 +11,7 @@ const createJWT=({payload})=>{
 }
 
 
-const verifyToken=(token)=>{
+const isTokenValid=(token)=>{
     try {
        const verifiedToken= jwt.verify(token,proces.env.JWT_SECRET_KEY)
        return verifiedToken
@@ -25,11 +25,11 @@ const attachCookiesToResponse=async({user,res})=>{
     const token=await createJWT({payload:user})
     res.cookie('token',token,{httpOnly:true,
         expires:new Date(Date.now()+1000*60*60*24),
-        secure: process.env.NODE_ENV=== 'production',//during developing we use http and production we use https
+        secure: process.env.NODE_ENV==='production',//during developing we use http and production we use https
         signed:true,
     })
         
-     res.status(StatusCodes.CREATED).json({user})
+    res.status(StatusCodes.CREATED).json({user})
 }
 
-module.exports={createJWT,verifyToken,attachCookiesToResponse}
+module.exports={createJWT,isTokenValid,attachCookiesToResponse}
