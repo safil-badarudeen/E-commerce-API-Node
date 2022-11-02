@@ -15,11 +15,11 @@ const register=async(req,res)=>{
     }
 
    //if its the first user in DB role will be admin
-    const firstUser=(await User.countDocuments({}))===0;
+     const firstUser=(await User.countDocuments({}))===0;
      const role=firstUser? 'admin' : 'user';
 
      const user= await User.create({name, email, password, role})
-     const tokenUser={name:user.name,email:user.email,role:user.role,role}
+     const tokenUser={userId:user._id,name:user.name,email:user.email,role:user.role}
     
      attachCookiesToResponse({user:tokenUser,res})
      
@@ -37,7 +37,7 @@ const login=async(req,res)=>{
   if(!user){
     throw new customError.NotFoundError('User not found...Enter valid email address')
   }
-  const tokenUser={name:user.name,userId:user._id,role:user.role}
+  const tokenUser={name:user.name,userId:user._id,role:user.role,}
 
   const verifiedPassword=await user.comparePassword(password);
 

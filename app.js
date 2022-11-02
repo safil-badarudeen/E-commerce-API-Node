@@ -12,6 +12,7 @@ const connectDB=require('./db/connect')
 
 //route
 const authRoutes=require('./routes/authRoutes')
+const userRoutes=require('./routes/userRoutes')
 
 //other
 
@@ -27,17 +28,18 @@ const { signedCookie } = require('cookie-parser')
 app.use(express.json())
 
 app.use(morgan('tiny'))
-app.use(cookieParser(process.env.JWT_SECRET_KEY))
+app.use(cookieParser(process.env.JWT_SECRET_KEY)) 
 
 app.use('/api/v1/auth',authRoutes)
+app.use('/api/v1/users',userRoutes)
 
 
 app.get('/',(req,res)=>{
     res.send('E commerce API')
 })
 app.get('/api/v1',(req,res)=>{
-    //   console.log(req.cookies)
-     console.log(req.signedCookies)
+      console.log(req.cookies)
+    //  console.log(req.signedCookies)
     res.send('dummy route')
     
 })

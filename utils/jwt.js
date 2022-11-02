@@ -13,7 +13,7 @@ const createJWT=({payload})=>{
 
 const isTokenValid=(token)=>{
     try {
-       const verifiedToken= jwt.verify(token,proces.env.JWT_SECRET_KEY)
+       const verifiedToken= jwt.verify(token,process.env.JWT_SECRET_KEY)
        return verifiedToken
     } catch (error) {
         throw new customError.UnauthenticatedError('Not a valid authentication try again...')
