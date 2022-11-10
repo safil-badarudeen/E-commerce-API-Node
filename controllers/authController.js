@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const customError=require('../errors')
 const bcrypt = require('bcryptjs');
 
-const {attachCookiesToResponse}=require('../utils')
+const {attachCookiesToResponse,createTokenUser}=require('../utils')
 
 
 const register=async(req,res)=>{
@@ -19,7 +19,8 @@ const register=async(req,res)=>{
      const role=firstUser? 'admin' : 'user';
 
      const user= await User.create({name, email, password, role})
-     const tokenUser={userId:user._id,name:user.name,email:user.email,role:user.role}
+
+     const tokenUser=createTokenUser(user)
     
      attachCookiesToResponse({user:tokenUser,res})
      
@@ -37,8 +38,8 @@ const login=async(req,res)=>{
   if(!user){
     throw new customError.NotFoundError('User not found...Enter valid email address')
   }
-  const tokenUser={name:user.name,userId:user._id,role:user.role,}
-
+  const tokenUser=createTokenUser(user)
+  console.log(tokenUser)
   const verifiedPassword=await user.comparePassword(password);
 
    if(!verifiedPassword){

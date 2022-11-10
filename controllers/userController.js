@@ -1,6 +1,8 @@
 const User=require('../models/user')
 const {StatusCodes}=require('http-status-codes')
 const customError=require('../errors')
+const{createTokenUser,attachCookiesToResponse}=require('../utils')
+const { response } = require('express')
 
 const getAllUsers=async(req,res)=>{
     const user=await User.find({role:'user'}).select('-password')
@@ -16,11 +18,26 @@ const showCurrentUser=async(req,res)=>{
 }
 
 const updateUser=async(req,res)=>{
-    res.send(req.body)
+    const {email,username}=req.body
+    const {userId,name}=req.user
+
+    if(!email && !username){
+        throw new customError.BadRequestError('please enter the both value in email and username')
+    }
+
+    const user=await User.findById(userId)
+    user.name=username
+    user.email=email
+    await user.save()
+    
+    const tokenUser=createTokenUser(user)
+    attachCookiesToResponse({user:tokenUser,res})
+    // res.status(StatusCodes.OK).json({tokenUser})
 }
 
 const updatePassword=async(req,res)=>{
     const {oldPassword,newPassword}=req.body
+
     if(!oldPassword && !newPassword){
         throw new customError.BadRequestError('please enter both old and new password')
     }

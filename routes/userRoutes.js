@@ -11,7 +11,7 @@ const {authenticateUser,authorizePermission}=require('../middleware/authenticati
 router.route('/').get(authenticateUser,authorizePermission('admin','owner') ,getAllUsers)
 router.route('/showMe').get(authenticateUser,showCurrentUser)
 router.route('/updatePassword').patch(authenticateUser,updatePassword)
-router.route('/updateUser').patch(updateUser)
+router.route('/updateUser').patch(authenticateUser,updateUser)
 router.route('/:id').get(getSingleUser)
 
 module.exports = router

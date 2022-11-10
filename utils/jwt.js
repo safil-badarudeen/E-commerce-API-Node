@@ -29,7 +29,7 @@ const attachCookiesToResponse=async({user,res})=>{
         signed:true,
     })
         
-    res.status(StatusCodes.CREATED).json({user})
+     res.status(StatusCodes.OK).json({user})
 }
 
 module.exports={createJWT,isTokenValid,attachCookiesToResponse}
