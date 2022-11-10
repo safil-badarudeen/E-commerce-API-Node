@@ -8,9 +8,9 @@ const{ getAllUsers,
        
 const {authenticateUser,authorizePermission}=require('../middleware/authentication')
 
-router.route('/').get(authenticateUser,authorizePermission ,getAllUsers)
-router.route('/showMe').get(showCurrentUser)
-router.route('/updatePassword').patch(updatePassword)
+router.route('/').get(authenticateUser,authorizePermission('admin','owner') ,getAllUsers)
+router.route('/showMe').get(authenticateUser,showCurrentUser)
+router.route('/updatePassword').patch(authenticateUser,updatePassword)
 router.route('/updateUser').patch(updateUser)
 router.route('/:id').get(getSingleUser)
 
