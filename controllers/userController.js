@@ -1,7 +1,7 @@
 const User=require('../models/user')
 const {StatusCodes}=require('http-status-codes')
 const customError=require('../errors')
-const{createTokenUser,attachCookiesToResponse}=require('../utils')
+const{createTokenUser,attachCookiesToResponse,checkPermissions}=require('../utils')
 const { response } = require('express')
 
 const getAllUsers=async(req,res)=>{
@@ -10,7 +10,19 @@ const getAllUsers=async(req,res)=>{
 }
 
 const getSingleUser=async(req,res)=>{
-    res.send(req.params)
+     const {id}=req.params
+    
+    
+    const user=await User.findOne({_id:id}).select('-password')
+    
+    checkPermissions({requestUser:req.user, currentUserId:user._id})
+    
+    const tokenUser= createTokenUser(user)
+    
+    attachCookiesToResponse({res,user:tokenUser})
+    
+    // res.status(StatusCodes.OK).json({user})
+  
 }
 
 const showCurrentUser=async(req,res)=>{
