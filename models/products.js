@@ -26,23 +26,27 @@ const productSchema = new mongoose.Schema({
 
 image: {
     type:String,
+    default: '/uploads/example.jpeg',
 },
 
 category: {
     type:String,
-    enum:{
-        value:['computer','mobile','tablet','earbuds']
-    }
+    required:true,
+    enum: ['computer','mobile','tablet','earbuds'],
 },
 
  company: {
     type:String,
     required:true,
+    enum :['dell','msi','hp','samsung','realme']
+    
 },
 
 
 colors: {
     type:[String],
+    required:true,
+    enum:['blue','green','black','white']
 
 },
 

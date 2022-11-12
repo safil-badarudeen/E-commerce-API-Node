@@ -11,17 +11,18 @@ const app =express()
 const connectDB=require('./db/connect')
 
 //route
-const authRoutes=require('./routes/authRoutes')
-const userRoutes=require('./routes/userRoutes')
+const authRouter = require('./routes/authRoutes')
+const userRouter = require('./routes/userRoutes')
+const productRouter = require('./routes/productRoutes')
 
 //other
 
 
-const morgan=require('morgan')
-const cookieParser=require('cookie-parser')
+const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
 
-const notFoundMiddleware=require('./middleware/not-found')
-const errorHandlerMiddleware=require('./middleware/error-handler')
+const notFoundMiddleware = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handler')
 
 
 //body parser middleware
@@ -30,9 +31,9 @@ app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cookieParser(process.env.JWT_SECRET_KEY)) 
 
-app.use('/api/v1/auth',authRoutes)
-app.use('/api/v1/users',userRoutes)
-
+app.use('/api/v1/auth',authRouter)
+app.use('/api/v1/users',userRouter)
+app.use('/api/v1/products', productRouter)
 
 app.get('/',(req,res)=>{
     res.send('E commerce API')
