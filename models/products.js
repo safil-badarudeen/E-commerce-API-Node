@@ -32,7 +32,7 @@ image: {
 category: {
     type:String,
     required:true,
-    enum: ['computer','mobile','tablet','earbuds'],
+    enum: ['computer','mobile','tablet','earbuds','laptop'],
 },
 
  company: {
@@ -46,8 +46,8 @@ category: {
 colors: {
     type:[String],
     required:true,
-    enum:['blue','green','black','white']
-
+    enum:['blue','green','black','white'],
+    default:'black'
 },
 
 featured: {
