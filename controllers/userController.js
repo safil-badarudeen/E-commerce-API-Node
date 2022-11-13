@@ -10,10 +10,10 @@ const getAllUsers=async(req,res)=>{
 }
 
 const getSingleUser=async(req,res)=>{
-     const {id}=req.params
+
+     const {id : userId}=req.params
     
-    
-    const user=await User.findOne({_id:id}).select('-password')
+    const user=await User.findOne({_id: userId}).select('-password')
     
     checkPermissions({requestUser:req.user, currentUserId:user._id})
     
