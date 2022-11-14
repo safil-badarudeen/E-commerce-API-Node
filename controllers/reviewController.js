@@ -4,6 +4,7 @@ const Review = require('../models/Review');
 const Product = mongoose.model ('Product') //require('../models/Products');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+const { findOne } = require('../models/Review');
 
 
 
@@ -34,12 +35,25 @@ const createReview = async (req,res)=>{
 };
 
 const  getAllReviews= async (req,res)=>{
-    res.send('getAllReviewRoute')
+   
+  const reviews = await Review.find({})
+  console.log(typeof reviews)
+  res.status(StatusCodes.OK).json({reviews , count : reviews.length})
 
 } 
 
 const getSingleReview = async (req,res)=>{
-    res.send('getsingleReviewRoute')
+  
+  const {id : reviewId} = req.params
+
+  const review = await Review.findOne({_id: reviewId})
+
+  if (!review){
+    throw new CustomError.BadRequestError('The review doesnt exist')
+  }
+ 
+  res.status(StatusCodes.OK).json({review})
+    
 
 }
 
