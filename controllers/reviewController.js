@@ -5,6 +5,7 @@ const Product = mongoose.model ('Product') //require('../models/Products');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { findOne } = require('../models/Review');
+const { checkPermissions } = require('../utils');
 
 
 
@@ -37,7 +38,7 @@ const createReview = async (req,res)=>{
 const  getAllReviews= async (req,res)=>{
    
   const reviews = await Review.find({})
-  console.log(typeof reviews)
+ 
   res.status(StatusCodes.OK).json({reviews , count : reviews.length})
 
 } 
@@ -49,7 +50,7 @@ const getSingleReview = async (req,res)=>{
   const review = await Review.findOne({_id: reviewId})
 
   if (!review){
-    throw new CustomError.BadRequestError('The review doesnt exist')
+    throw new CustomError.BadRequestError(`The review doesnt exist with review id ${review}`)
   }
  
   res.status(StatusCodes.OK).json({review})
@@ -58,11 +59,47 @@ const getSingleReview = async (req,res)=>{
 }
 
 const  updateReview = async (req,res)=>{
-    res.send('updateReviewRoute')
+
+  const { id : reviewId}= req.params
+  const {rating, title , comment} = req.body
+
+  const review = await Review.findById(reviewId)
+ 
+   
+  if(!review){
+    throw new CustomError.BadRequestError('Review doesnt exist ...')
+  }
+
+  review.rating=rating
+  review.title= title
+  review.comment= comment
+  
+  checkPermissions({requestUser:req.user, currentUserId:review.user})
+
+  await review.save()
+  
+  res.status(StatusCodes.OK).json({review})
+    
 } 
 
 const deleteReview = async (req,res)=>{
-    res.send('deleteReviewRoute')
+
+  const {id : reviewId} = req.params
+
+  const review = await Review.findOne({_id: reviewId})
+
+  if (!review){
+    throw new CustomError.BadRequestError(`The review doesnt exist with review id ${review}`)
+  }
+
+  checkPermissions({requestUser:req.user, currentUserId:review.user})
+
+  await review.remove()
+ 
+  res.status(StatusCodes.OK).json({msg : `review with review_id ${review._id} deleted successfully`})
+
+  
+
 }
 
 module.exports={
