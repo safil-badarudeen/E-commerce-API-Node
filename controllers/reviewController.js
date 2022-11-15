@@ -47,7 +47,7 @@ const getSingleReview = async (req,res)=>{
   
   const {id : reviewId} = req.params
 
-  const review = await Review.findOne({_id: reviewId})
+  const review = await Review.findOne({_id: reviewId}).populate('product', ' name company price')
 
   if (!review){
     throw new CustomError.BadRequestError(`The review doesnt exist with review id ${review}`)
@@ -102,9 +102,19 @@ const deleteReview = async (req,res)=>{
 
 }
 
+const getSingleProductReview = async (req,res)=>{
+  const {id: productId} = req.params
+  
+   const review = await Review.findOne({ product : productId})
+
+   console.log(review)
+   res.status(StatusCodes.OK).json({review})
+}
+
 module.exports={
     deleteReview,
     updateReview,
     getSingleReview,
     getAllReviews,
-    createReview}
+    createReview,
+    getSingleProductReview}

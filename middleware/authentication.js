@@ -12,7 +12,7 @@ const authenticateUser=async(req,res,next)=>{
     }
 
     try {
-        const {name,userId,role}= isTokenValid(token)//we can also destructure like const {name,id,role}
+        const {name,userId,role}= isTokenValid(token)
         req.user={name,userId,role}
         
         next()

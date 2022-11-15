@@ -78,6 +78,18 @@ user:{
 }
 
   
-}, {timeStamps: true})
+}, {timeStamps: true, toJSON : { virtuals : true}, toObject : { virtuals : true }})
+
+productSchema.virtual( 'review', {
+    ref : 'Review' ,
+    localField : '_id',
+    foreignField : 'product',
+    justOne : false
+})
+
+productSchema.pre('remove',async function(){
+ await this.model('Review').deleteMany({product : this._id})
+})
+
 
 module.exports = mongoose.model('Product',productSchema)
