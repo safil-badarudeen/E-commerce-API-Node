@@ -71,4 +71,4 @@ const ReviewSchema = mongoose.Schema(
   await this.constructor.calculateAverageRating(this.product)
  })
  
-module.exports = mongoose.model('Review', ReviewSchema);added aggregate pipe line in review model to provide data for avg rating and numOfReviews in product schema and added find one and update to product schema inside aggregate pipeline , hook will call the aggregate pipe line function while we update
+module.exports = mongoose.model('Review', ReviewSchema)
