@@ -64,10 +64,12 @@ const ReviewSchema = mongoose.Schema(
 
  
  ReviewSchema.post('save', async  function(req,res){
+  console.log('post')
  await this.constructor.calculateAverageRating(this.product)
  })
 
  ReviewSchema.post('remove',async function(req,res){
+  console.log('post remove')
   await this.constructor.calculateAverageRating(this.product)
  })
  

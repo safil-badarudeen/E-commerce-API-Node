@@ -46,12 +46,14 @@ app.use('/api/v1/orders',orderRouter)
 app.get('/',(req,res)=>{
     res.send('E commerce API')
 })
-app.get('/api/v1',(req,res)=>{
-      console.log(req.cookies)
-     console.log(req.signedCookies)
-    res.send('dummy route')
+
+//dummy Test route
+// app.get('/api/v1',(req,res)=>{
+//       console.log(req.cookies)
+//      console.log(req.signedCookies)
+//     res.send('dummy route')
     
-})
+// })
 
 //error middleware
 app.use(notFoundMiddleware)

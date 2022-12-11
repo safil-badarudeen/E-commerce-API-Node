@@ -98,8 +98,6 @@ const deleteReview = async (req,res)=>{
  
   res.status(StatusCodes.OK).json({msg : `review with review_id ${review._id} deleted successfully`})
 
-  
-
 }
 
 const getSingleProductReview = async (req,res)=>{
