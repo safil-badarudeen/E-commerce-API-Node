@@ -39,7 +39,7 @@ const login=async(req,res)=>{
     throw new customError.NotFoundError('User not found...Enter valid email address')
   }
   const tokenUser=createTokenUser(user)
-  console.log(tokenUser)
+  // console.log(tokenUser)
   const verifiedPassword=await user.comparePassword(password);
 
    if(!verifiedPassword){

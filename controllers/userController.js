@@ -47,7 +47,7 @@ const updateUser=async(req,res)=>{
     attachCookiesToResponse({user:tokenUser,res})
     // res.status(StatusCodes.OK).json({tokenUser})
 }
-
+``
 const updatePassword=async(req,res)=>{
     const {oldPassword,newPassword}=req.body
 
